@@ -15,6 +15,8 @@ def api_call(dob, unit):
     response_msg = json.loads(response.text)
     return response_msg['message']
 
+api_call('1900-01-01', 'months')
+
 def date_diff_util():
     """
     Since the expected result keeps changing daily, this method calculates the date when the test case is written 
@@ -33,10 +35,12 @@ def date_diff_util():
 diff_months, diff_days, diff_hours, diff_weeks = date_diff_util()
 
 @pytest.mark.parametrize("dob,unit,expected", [
-    ('1990-10-30', 'hour', f'{1968 - diff_hours} hours left'),
-    ('1990-10-30', 'day', f'{82 - diff_days} days left'),
-    ('1990-10-30', 'week', f'{11 - diff_weeks} weeks left'),
-    ('1990-10-30', 'month', f'{2 - diff_months} months left'),
+    ('1900-01-01', 'hour', f'{3456 - diff_hours} hours left'),
+    ('1900-01-01', 'day', f'{144 - diff_days} days left'),
+    ('1900-01-01', 'week', f'{20 - diff_weeks} weeks left'),
+    ('1900-01-01', 'month', f'{4 - diff_months} months left'),
+    ('1900-01-01', 'months', None),
+    ('1900-01-00', 'month', 'Please specify dateofbirth in ISO format YYYY-MM-DD'),
 ])
 def test_api_call(dob, unit, expected):
     assert api_call(dob, unit) == expected
